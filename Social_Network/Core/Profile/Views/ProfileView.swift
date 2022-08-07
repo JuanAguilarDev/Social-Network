@@ -11,8 +11,11 @@ import SwiftUI
 struct ProfileView: View {
     // State for the selected option into the menu
     @State private var selectedFilter: TweetFilter = .Tweets
-    // Container of a porperty
+    //
+    @Environment(\.presentationMode) var mode
+    // Container of a property
     @Namespace var animation
+    
     var body: some View {
         VStack(alignment: .leading){
             headerView
@@ -48,13 +51,13 @@ extension ProfileView {
             VStack{
                 // Return button
                 Button{
-                    
+                    mode.wrappedValue.dismiss()
                 }label: {
                     Image(systemName: "arrow.left")
                         .resizable()
                         .frame(width: 20, height: 16)
                         .foregroundColor(.white)
-                        .offset(x: 16, y: 12)
+                        .offset(x: 1, y: 1)
                 }
                 HStack(alignment: .center){
                     // Profile image
@@ -160,24 +163,9 @@ extension ProfileView {
             .font(.caption)
             .foregroundColor(.gray)
             
-            HStack(spacing: 24){
-                HStack{
-                    Text("1")
-                        .bold()
-                    Text("Following")
-                        .foregroundColor(.gray)
-                }
-                
-                
-                HStack{
-                    Text("1M")
-                        .bold()
-                    Text("Followers")
-                        .foregroundColor(.gray)
-                }
-            }
-            .padding(.vertical)
-            .font(.caption)
+            UserStatsView()
+                .padding(.vertical)
+                .font(.caption)
             
         }
         .padding(.horizontal)
