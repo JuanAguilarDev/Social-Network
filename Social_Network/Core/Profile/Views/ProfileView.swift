@@ -6,15 +6,21 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 
 struct ProfileView: View {
     // State for the selected option into the menu
     @State private var selectedFilter: TweetFilter = .Tweets
     //
+    @ObservedObject var viewModel: ProfileViewModel
     @Environment(\.presentationMode) var mode
     // Container of a property
     @Namespace var animation
+    
+    init(user: User){
+        self.viewModel = ProfileViewModel(user: user)
+    }
     
     var body: some View {
         VStack(alignment: .leading){
@@ -33,12 +39,13 @@ struct ProfileView: View {
             
             Spacer()
         }
+        .navigationBarHidden(true)
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(user: User(id: NSUUID().uuidString, username: "Juan", fullname: "Juan Aguilar", profileImageUrl: "", email: "Juan@dev"))
     }
 }
 
@@ -48,25 +55,32 @@ extension ProfileView {
             Color(.systemBlue)
                 .ignoresSafeArea()// All the screen
             
-            VStack{
+            VStack(alignment: .leading){
                 // Return button
-                Button{
-                    mode.wrappedValue.dismiss()
-                }label: {
-                    Image(systemName: "arrow.left")
-                        .resizable()
-                        .frame(width: 20, height: 16)
-                        .foregroundColor(.white)
-                        .offset(x: 1, y: 1)
-                }
+                
+                    Button{
+                        mode.wrappedValue.dismiss()
+                    }label: {
+                        Image(systemName: "arrow.left")
+                            .resizable()
+                            .frame(width: 20, height: 16)
+                            .foregroundColor(.white)
+                            .offset(x: 10, y: -10)
+                    }.padding(.horizontal)
                 HStack(alignment: .center){
+                    
+                    Spacer()
                     // Profile image
-                    Circle()
+                    KFImage(URL(string: viewModel.user.profileImageUrl))
+                        .resizable()
+                        .clipShape(Circle())
+                        .scaledToFill()
                         .frame(width: 72, height: 72)
-                        .offset(x: 16, y: 24)
+                        .offset(x: 0, y: 24)
                         
+                    Spacer()
                         
-                }.frame(width: 96)
+                }.frame(width: 390)
             }
         }
         .frame(height: 96)
@@ -74,12 +88,16 @@ extension ProfileView {
     
     var actionButtons: some View{
         HStack(spacing: 12){
+            
             Spacer()
             
             Image(systemName: "bell.badge")
                 .font(.title3)
                 .padding(6)
                 .overlay(Circle().stroke(Color.gray, lineWidth: 0.75))
+                .offset(x: -48, y: 0)
+            
+            Spacer()
             
             Button{
                 
@@ -91,7 +109,7 @@ extension ProfileView {
                     .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.gray, lineWidth: 0.75))
             }
         }
-        .padding(.trailing)
+        .padding(.horizontal, 10)
         
     }// End of action buttons
     
@@ -129,18 +147,18 @@ extension ProfileView {
     var userInfoDetails: some View{
         VStack(alignment: .leading, spacing: 4){
             HStack{
-                Text("Healt Ledger")
+                Text(viewModel.user.fullname)
                     .font(.title2).bold()
                 
                 Image(systemName: "checkmark.seal.fill")
                     .foregroundColor(.blue)
             }
             
-            Text("@Joker")
+            Text("@\(viewModel.user.username)")
                 .font(.subheadline)
                 .foregroundColor(.gray)
             
-            Text("Your favorite villian")
+            Text("Web front end developer. :D")
                 .font(.subheadline)
                 .padding(.vertical)
             
@@ -149,7 +167,7 @@ extension ProfileView {
                     Image(systemName: "location.fill")
                         .foregroundColor(.green)
                     
-                    Text("Gotham, NY")
+                    Text("Abasolo, Gto")
                 }
                 
                 
@@ -174,8 +192,8 @@ extension ProfileView {
     var tweetsView: some View{
         ScrollView{
             LazyVStack{
-                ForEach(0 ... 9, id:\.self){_ in
-                    TweetRowView()
+                ForEach(viewModel.tweets){tweet in
+                    TweetRowView(tweet: tweet)
                         .padding()
                 }
             }

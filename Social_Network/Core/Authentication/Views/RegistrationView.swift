@@ -12,26 +12,31 @@ struct RegistrationView: View {
     @State private var password = ""
     @State private var username = ""
     @State private var fullname = ""
+    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
         VStack{
+            
+            NavigationLink(destination: ProfilePhotoSelectorView(), isActive: $viewModel.didAuthenticateUser, label: {})
+            
+            
             AuthenticationHeaderView(imageName: "checkmark.seal.fill", firstText: "Get Started!", secondText: "Create your account")
             
             VStack(spacing: 40){
                 CustomInputFile(imageName: "envelope", placeholderText: "Email", text: $email)
                 
-                CustomInputFile(imageName: "person.2", placeholderText: "Username", text: $password)
+                CustomInputFile(imageName: "person.2", placeholderText: "Username", text: $username)
                 
-                CustomInputFile(imageName: "person", placeholderText: "Full name", text: $password)
+                CustomInputFile(imageName: "person", placeholderText: "Full name", text: $fullname)
                 
-                CustomInputFile(imageName: "lock", placeholderText: "Password", text: $password)
+                CustomInputFile(imageName: "lock", placeholderText: "Password", isSecuredFiel: true, text: $password)
                 
             }
             .padding(.horizontal, 32)
             .padding(.top, 44)
             
             Button{
-                print("Sign up")
+                viewModel.register(withEmail: email, password: password, fullname: fullname, username: username)
             }label:{
                 Text("Sign up")
                     .font(.headline)

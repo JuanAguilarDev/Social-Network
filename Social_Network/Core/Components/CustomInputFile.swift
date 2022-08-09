@@ -10,6 +10,7 @@ import SwiftUI
 struct CustomInputFile: View {
     let imageName: String
     let placeholderText: String
+    var isSecuredFiel: Bool? = false
     @Binding var text: String
     
     var body: some View {
@@ -21,7 +22,11 @@ struct CustomInputFile: View {
                     .frame(width: 20, height: 20)
                     .foregroundColor(Color(.darkGray))
                 
-                TextField(placeholderText, text: $text)
+                if isSecuredFiel ?? false{ // Default value
+                    SecureField(placeholderText, text: $text)
+                }else{
+                    TextField(placeholderText, text: $text)
+                }
             }
             
             Divider()
@@ -32,6 +37,6 @@ struct CustomInputFile: View {
 
 struct CustomInputFile_Previews: PreviewProvider {
     static var previews: some View {
-        CustomInputFile(imageName: "enveloper", placeholderText: "Email", text: .constant(""))
+        CustomInputFile(imageName: "enveloper", placeholderText: "Email", isSecuredFiel: false, text: .constant(""))
     }
 }

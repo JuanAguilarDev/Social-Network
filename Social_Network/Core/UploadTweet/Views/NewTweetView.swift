@@ -6,10 +6,17 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct NewTweetView: View {
     @State private var caption = ""
     @Environment(\.presentationMode) var mode
+    @EnvironmentObject var viewModel: AuthViewModel
+    @ObservedObject var uploadTweetModel: UploadTweetViewModel
+    
+    init() {
+        self.uploadTweetModel = UploadTweetViewModel()
+    }
     
     var body: some View {
         VStack{
@@ -24,7 +31,8 @@ struct NewTweetView: View {
                 Spacer()
                 
                 Button{
-                    print("Dismiss. ")
+                    uploadTweetModel.uploadTweet(withCaption: caption)
+                    
                 }label:{
                     Text("Tweet")
                         .bold()
@@ -38,14 +46,23 @@ struct NewTweetView: View {
             .padding()
             
             HStack(alignment: .top){
-                    Circle()
-                    .frame(width: 64, height: 64)
+                if let user = viewModel.currentUser{
+                    KFImage(URL(string: user.profileImageUrl))
+                        .resizable()
+                        .scaledToFill()
+                        .clipShape(Circle())
+                        .frame(width: 64, height: 64)
                 
-                TextArea("What's happening?", text: $caption)
-                
-                
+                    TextArea("What's happening?", text: $caption)
+                }
             }
             .padding()
+        }
+        .onReceive(uploadTweetModel.$diduploadTweet){ // Close the upload view after send a post
+            success in
+            if success {
+                mode.wrappedValue.dismiss()
+            }
         }
     }
 }
