@@ -10,13 +10,13 @@ import Foundation
 
 class FeedViewModel: ObservableObject{
     @Published var tweets = [Tweet]()
-    let service = TweetService()
-    let userService = UserService()
+    let service = TweetService() // inicializar
+    let userService = UserService() // Inicializar
     
     init() {
         fetchTweets()
     }
-    
+    // Te traes las publicaciones de la base de datos
     func fetchTweets(){
         service.fetchTweets{
             tweets in

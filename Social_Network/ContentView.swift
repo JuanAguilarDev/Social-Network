@@ -16,9 +16,9 @@ struct ContentView: View {
     var body: some View {
         Group{
             if(viewModel.userSession == nil){ // No user logged in
-                LoginView()
+                LoginView() // Si no hay sesion, te manda al login
             }else{ // User logged in
-                mainInterfaceView
+                mainInterfaceView // Te manda a la pagina de main (los posts)
             }
             
         }
@@ -35,7 +35,7 @@ struct ContentView_Previews: PreviewProvider {
 
 
 extension ContentView{
-    var mainInterfaceView: some View{
+    var mainInterfaceView: some View{ // Muestra Publicaciones
         ZStack(alignment: .topLeading){
             MainTabView()
                 .navigationBarHidden(showMenu)
@@ -61,11 +61,11 @@ extension ContentView{
         .toolbar{
             ToolbarItem(placement: .navigationBarLeading){
                 if let user = viewModel.currentUser{
-                    Button{
+                    Button{ // boton de perfil
                         withAnimation(.easeInOut){
                             showMenu.toggle()
                         } // Toggle the boolean value
-                    } label:{
+                    } label:{ // Te muestra la foto
                         KFImage(URL(string: user.profileImageUrl))
                             .resizable()
                             .scaledToFill()

@@ -17,6 +17,7 @@ class ProfileViewModel: ObservableObject{
         self.fetchUserTweets()
     }
     
+    // Traer los usuarios de la base datos y los muestra en un arreglo
     func fetchUserTweets(){
         guard let uid = user.id else {return}
         service.fetchTweets(forUid: uid){

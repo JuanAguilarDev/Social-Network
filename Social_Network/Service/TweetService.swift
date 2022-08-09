@@ -6,7 +6,7 @@
 //
 
 import Firebase
-
+// Traer las publicaciones de la base datos
 struct TweetService{
     func uploadTweet(caption: String, completion: @escaping(Bool) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else {return}

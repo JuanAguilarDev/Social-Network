@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var email = ""
-    @State private var password = ""
-    @EnvironmentObject var viewModel: AuthViewModel
+    @State private var email = "" // Correo
+    @State private var password = "" // Contrasenia
+    @EnvironmentObject var viewModel: AuthViewModel //
     
     var body: some View {
         VStack{
-            
+            // Cabecera de las primeras vistas
             AuthenticationHeaderView(imageName: "hand.wave.fill", firstText: "Hello!", secondText: "Welcome Back")
             
-            VStack(spacing: 40){
+            VStack(spacing: 40){ // Inputs del login
                 CustomInputFile(imageName: "envelope", placeholderText: "Email", text: $email)
                 
                 CustomInputFile(imageName: "lock", placeholderText: "Password", isSecuredFiel: true, text: $password)
@@ -39,7 +39,7 @@ struct LoginView: View {
                 }
             }
             
-            Button{
+            Button{ // Guarda los datos en la base de datos
                 viewModel.login(withEmail: email, password: password)
             }label:{
                 Text("Sign in")
@@ -55,7 +55,7 @@ struct LoginView: View {
             
             Spacer()
             
-            HStack{
+            HStack{ // Para registrarte
                 NavigationLink{
                     RegistrationView()
                         .navigationBarHidden(true)

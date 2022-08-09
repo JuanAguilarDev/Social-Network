@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+// Muestra las opciones del menu inferior
 struct MainTabView: View {
     @State private var selectedIndex = 0
     

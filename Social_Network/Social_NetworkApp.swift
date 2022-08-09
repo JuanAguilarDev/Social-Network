@@ -5,8 +5,8 @@
 //  Created by Juan Aguilar on 10/07/22.
 //
 
-import SwiftUI
-import Firebase
+import SwiftUI // Kit ui
+import Firebase // Importando la base de datos
 
 @main
 struct Social_NetworkApp: App {

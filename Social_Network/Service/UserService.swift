@@ -7,7 +7,7 @@
 
 import Firebase
 import FirebaseFirestoreSwift
-
+// Traer usuarios de la base de datos
 struct UserService{
     
     func fetchUsers(withUid uid: String, completion: @escaping(User) -> Void){

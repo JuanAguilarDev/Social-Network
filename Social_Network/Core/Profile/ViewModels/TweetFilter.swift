@@ -7,6 +7,7 @@
 
 import Foundation
 
+//Mostrar texto
 // CaseIterable allows to treat our elements like an array
 enum TweetFilter : Int, CaseIterable{
     case Tweets

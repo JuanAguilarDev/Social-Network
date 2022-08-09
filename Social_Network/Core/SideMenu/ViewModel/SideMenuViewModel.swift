@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Manda el texto
 
 // CaseIterable allows to treat our elements like an array
 enum SideMenuViewModel : Int, CaseIterable{

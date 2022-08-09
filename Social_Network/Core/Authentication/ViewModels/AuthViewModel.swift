@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Firebase
-
+// Interactuar con la base datos
 class AuthViewModel: ObservableObject{
     @Published var userSession: FirebaseAuth.User?
     @Published var didAuthenticateUser = false
@@ -18,7 +18,7 @@ class AuthViewModel: ObservableObject{
     
     init(){
         self.userSession = Auth.auth().currentUser
-        self.fetchUser()
+        self.fetchUser() // Muestra los usuarios
     }
     
     // Login (auth)
